@@ -1,19 +1,45 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <Header />
+    <div class="content">
+      <router-view></router-view>
+    </div>
+    <Footer />
   </div>
 </template>
 
 <script>
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+
 export default {
   name: 'app',
+  components: {
+    Header,
+    Footer
+  },
+  mounted() {
+    if(localStorage.authtoken) {
+      let entity = {
+        jwt: localStorage.authtoken,
+        user: localStorage.user ? JSON.parse(localStorage.user) : null
+      }
+
+      this.$store.commit('login', entity)
+    }
+  }
 }
 </script>
 
 <style>
-.header {
-  background-color: rgb(10,42,84);
-  height: 200px
+.content {
+  width: 1200px;
+  min-height: 600px;
+  margin: 0 auto;
+  background-color: #efefef;
+  padding-bottom: 15px;
+  padding-top: 20px;
+  margin-bottom: -15px;
 }
 
 #app {

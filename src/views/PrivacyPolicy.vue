@@ -1,6 +1,6 @@
 <template>
   <div>
-    <strong>Privacy Policy</strong> <p>
+    <h1>Privacy Policy</h1> <p>
                     Ian van Roosmalen built the Armada app as
                     a Commercial app. This SERVICE is provided by
                     Ian van Roosmalen  and is intended for use as
@@ -22,12 +22,8 @@
                   </p> <p><strong>Information Collection and Use</strong></p> <p>
                     For a better experience, while using our Service, I
                     may require you to provide us with certain personally
-                    identifiable information, including but not limited to email, first name, last name. The information that
-                    I request will be retained on your device and is not collected by me in any way.
+                    identifiable information, including but not limited to email, first name, last name.
                   </p> <div><p>
-                      The app does use third party services that may collect
-                      information used to identify you.
-                    </p> <p>
                       Link to privacy policy of third party service providers used
                       by the app
                     </p> <ul><li><a href="https://www.google.com/policies/privacy/" target="_blank" rel="noopener noreferrer">Google Play Services</a></li><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></ul></div> <p><strong>Log Data</strong></p> <p>
