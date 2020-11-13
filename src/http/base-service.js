@@ -17,9 +17,8 @@ class BaseService {
         let constHeaders = {
             'Access-Control-Allow-Origin': '*',
             'Content-Type': 'application/json',
-            // 'Authorization': 'Bearer '+ state.users.jwt
+            'Authorization': 'Bearer '+ localStorage.authtoken
         }
-
 
         httpConfig.headers = Object.assign(httpConfig.headers || {}, constHeaders);
 

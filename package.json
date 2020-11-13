@@ -8,9 +8,14 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@mdi/font": "^5.8.55",
     "axios": "^0.21.0",
     "core-js": "^3.6.5",
     "es6-promise": "^4.2.8",
+    "json-loader": "^0.5.7",
+    "moment": "^2.29.1",
+    "moment-timezone": "^0.5.31",
+    "v-calendar": "^2.0.2",
     "validator": "^13.1.17",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",

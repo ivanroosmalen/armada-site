@@ -21,8 +21,15 @@ const actions = {
 
   async forgotPassword({}, { data }) {
     let response = await userService.forgotPassword(data);
-    if(!response || response.status !== 200) {
+    if(!response || response.status !== 201) {
       throw new Error('Reset password failed');
+    }
+  },
+
+  async updatePassword({ getters }, { id, data }) {
+    let response = await userService.updatePassword(id, data);
+    if(!response || response.status !== 200) {
+      throw new Error('update password failed');
     }
   },
 

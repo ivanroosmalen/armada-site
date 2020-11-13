@@ -20,4 +20,4 @@ class AcademyMemberService extends BaseService {
 
 }
 
-export default AcademyMemberService;
+export default new AcademyMemberService('academyMembers');

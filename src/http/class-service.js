@@ -52,4 +52,4 @@ class ClassService extends BaseService {
     }
 }
 
-export default ClassService;
+export default new ClassService('classes');

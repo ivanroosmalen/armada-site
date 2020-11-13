@@ -1,10 +1,10 @@
 <template>
   <div>
-    <h1>Contact</h1>
+    <h1>{{translate('contact')}}</h1>
     <p>
-      For issues, questions or feature requests please send an email to:
+      {{translate('featureRequests')}}
     </p>
-    <p>
+    <p style="font-weight: bold">
       contact@armadama.com
     </p>
   </div>

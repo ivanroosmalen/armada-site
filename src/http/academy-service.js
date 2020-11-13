@@ -35,4 +35,4 @@ class AcademyService extends BaseService {
             }
 }
 
-export default AcademyService;
+export default new AcademyService('academies');

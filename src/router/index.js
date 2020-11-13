@@ -4,6 +4,8 @@ import Login from '../views/Login'
 import PrivacyPolicy from '../views/PrivacyPolicy.vue'
 import ToC from '../views/ToC.vue'
 import Contact from '../views/Contact.vue'
+import Account from '../views/Account.vue'
+import Academy from '../views/Academy.vue'
 
 const routes = [
   {
@@ -44,6 +46,22 @@ const routes = [
     component: Contact,
     meta: {
       title: 'Armada MA - contact'
+    }
+  },
+  {
+    path: '/account',
+    name: 'Account',
+    component: Account,
+    meta: {
+      title: 'Armada MA - Account'
+    }
+  },
+  {
+    path: '/academies/:id',
+    name: 'Academy',
+    component: Academy,
+    meta: {
+      title: 'Armada MA - Academy'
     }
   }
 ]
