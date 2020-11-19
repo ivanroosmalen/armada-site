@@ -134,6 +134,7 @@
   "weeklyAttendance": "Weekly attendance",
   "dailyAttendance": "Daily attendance",
   "total": "total",
+  "dashboard": "Dashboard",
   "managerDashboard": "Manage",
   "metrics": "Metrics",
   "website": "Website",
@@ -161,5 +162,7 @@
   "linkUser": "Link user",
   "setAttendance": "Set Attendance",
   "average": "Daily average",
-  "weeklyAverage": "Weekly average"
+  "weeklyAverage": "Weekly average",
+  "noDataJoinAcademy": "You have no data! Please join an academy using the Armada App",
+  "forFunctionalityDownload": "For more functionality please download the app"
 }

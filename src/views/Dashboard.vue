@@ -1,9 +1,18 @@
 <template>
   <div class="academy-wrapper">
-    <div class="academy-element">
+    <h1>{{translate('dashboard')}}</h1>
+    <div class="no-data" v-if="!academy || !Object.keys(academy).length">
+      {{translate('noDataJoinAcademy')}}:
+      <a href="https://play.google.com/store/apps/details?id=com.armadama" >Android</a> / <a href="https://apps.apple.com/us/app/id1530706478" >ios</a>
+    </div>
+    <div class="academy-element" v-if="academy && Object.keys(academy).length">
       <img :src="academy.profileImg || defaultImg" class="img" />
       <div class="content-wrapper">
-        <h1>{{academy.name}}</h1>
+        <select v-model="academy" v-if="userAcademies && userAcademies.length" class="dashboard-select">
+          <option :value="ua" v-for="(ua, index) in userAcademies" :key="index">
+            {{ua.name}}
+          </option>
+        </select>
         <div class="academy-mas">
           <span v-for="ma in academy.martialArts">
             {{ma.name}}
@@ -20,21 +29,21 @@
         </div>
       </div>
     </div>
-    <div class="secondary-element">
+    <div class="secondary-element" v-if="members.length">
       <div class="member-element">
         <h2>{{translate('instructors')}} {{instructors && instructors.length ? `(${instructors.length})` : ''}}</h2>
         <div>
-          <MemberList :dataKey="$route.params.id" type="instructors"/>
+          <MemberList :dataKey="academy._id" type="instructors"/>
         </div>
         <h2>{{translate('members')}} {{members && members.length ? `(${members.length})` : ''}}</h2>
         <div v-if="isMember">
-          <MemberList :dataKey="$route.params.id"/>
+          <MemberList :dataKey="academy._id" />
         </div>
       </div>
       <div class="schedule-element">
         <h2>{{translate('schedule')}}</h2>
         <div>
-          <Schedule :dataKey="$route.params.id" :academyId="$route.params.id" :isMember="isMember" />
+          <Schedule :dataKey="academy._id" :academyId="academy._id" :isMember="isMember" />
         </div>
       </div>
     </div>
@@ -47,7 +56,7 @@
   import moment from 'moment-timezone'
 
   export default {
-    name: 'Academy',
+    name: 'Dashboard',
     components: {
       MemberList,
       Schedule
@@ -55,47 +64,73 @@
     data() {
       return {
         defaultImg: 'https://armada-user-images.s3.amazonaws.com/default/profile.jpg',
-        isMember: false
+        isMember: true,
+        selectedAcademy: null
       }
     },
     computed: {
-      academy: function() {
-        return this.$store.getters.getAcademy(this.$route.params.id) || {};
+      currentUser: function() {
+        return this.$store.getters.getUser;
+      },
+      userAcademies: function() {
+        let userAcademies = (this.currentUser && this.$store.getters.getUserAcademies(this.currentUser._id)) || {};
+        return userAcademies ? userAcademies.student : []
+      },
+      academy: {
+        get() {
+          return this.selectedAcademy || (this.userAcademies ? this.userAcademies[0] : {})
+        },
+        set(value) {
+          this.selectedAcademy = value;
+        }
       },
       members: function() {
-        return this.$store.getters.getAcademyMembers(this.$route.params.id);
+        return (this.academy && this.$store.getters.getAcademyMembers(this.academy._id)) || [];
       },
       instructors: function() {
         return this.members && this.members.filter(member => member.isInstructor)
-      },
-      currentUser: function() {
-        return this.$store.getters.getUser;
+      }
+    },
+    watch: {
+      academy: function (val) {
+        if(val && val._id) {
+          this.getRelatedData(val);
+        }
       }
     },
     methods: {
       async getData() {
         this.$store.commit('isLoading', true);
 
-        await Promise.all([
-          this.$store.dispatch('getAcademy', { id: this.$route.params.id }),
-          this.$store.dispatch('listAcademyMembers', { key: this.$route.params.id, params: { academyId: this.$route.params.id } })
-        ]);
+        if(this.currentUser) {
+          await Promise.all([
+            this.$store.dispatch('getUserAcademies', { id: this.currentUser._id }),
+          ]);
+        }
+
         this.$store.commit('isLoading', false);
       },
-      checkIfMember() {
-        if(this.currentUser && this.members && this.members.length) {
-          this.isMember = !!this.members.find(member => member.member._id === this.currentUser._id);
-        }
+      async getRelatedData(academy) {
+        this.$store.commit('isLoading', true);
+
+        await Promise.all([
+          this.$store.dispatch('listAcademyMembers', { key: academy._id, params: { academyId: academy._id } })
+        ]);
+
+        this.$store.commit('isLoading', false);
       }
     },
     async mounted() {
       await this.getData();
-      this.checkIfMember();
     }
   }
 </script>
 
 <style scoped>
+.no-data {
+  text-align: center;
+}
+
 .img {
   width: 350px;
   height: 250px;
@@ -150,12 +185,20 @@
   overflow-y: scroll; */
 }
 
+.dashboard-select {
+  font-size: 25px;
+  background-color: #efefef;
+  color: #2e2d2d;
+  border: none;
+  cursor: pointer;
+}
+
 h2 {
   text-align: left;
   padding-left: 0;
 }
 
 a {
-  color: #a8a8a8;
+  color: rgb(10,42,84);
 }
 </style>

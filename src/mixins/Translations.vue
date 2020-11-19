@@ -13,7 +13,7 @@
     },
     computed: {
       language() {
-        return this.$store.getters.getLanguage;
+        return this.$store.getters.getLanguage || 'en';
       }
     },
     methods: {

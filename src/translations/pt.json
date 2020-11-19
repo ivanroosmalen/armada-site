@@ -135,6 +135,7 @@
   "weeklyAttendance": "Comparecimento semanal",
   "dailyAttendance": "Comparecimento diário",
   "total": "total",
+  "dashboard": "Painel de controle",
   "managerDashboard": "Gerir",
   "metrics": "Métricos",
   "website": "O site",
@@ -162,5 +163,7 @@
   "linkUser": "Conectar usuário",
   "setAttendance": "Definir Comparecimento",
   "average": "Média diária",
-  "weeklyAverage": "Média semanal"
+  "weeklyAverage": "Média semanal",
+  "noDataJoinAcademy": "Você não tem dados! Junte-se a uma academia usando o aplicativo Armada",
+  "forFunctionalityDownload": "Para obter mais funcionalidades, baixe o aplicativo"
 }

@@ -20,6 +20,17 @@ const actions = {
     } else {
       throw new Error('Could not get academy');
     }
+  },
+
+  async getUserAcademies({ commit }, { id }) {
+    let response = await academyService.getUserAcademies(id);
+    console.log(response)
+    if(response.status === 200 && response && response.data && response.data.entity) {
+      commit('userAcademies', { key: id, data: response.data.entity });
+      return response.data.entity;
+    } else {
+      throw new Error('Could not get user academies');
+    }
   }
 }
 
@@ -29,17 +40,22 @@ const mutations = {
   },
   academy: (state, payload) => {
     state.academy[payload.key] = payload.data;
-  }
+  },
+  userAcademies: (state, payload) => {
+    state.userAcademies[payload.key] = payload.data;
+  },
 }
 
 const state = {
   academyList: {},
-  academy: {}
+  academy: {},
+  userAcademies: {}
 }
 
 const getters = {
   getAcademies: state => key => state.academyList[key],
-  getAcademy: state => key => state.academy[key]
+  getAcademy: state => key => state.academy[key],
+  getUserAcademies: state => key => state.userAcademies[key],
 }
 
 export default {

@@ -11,6 +11,17 @@
             {{translate('featureRequests')}} <span style="font-weight: bold">contact@armadama.com</span>
             <!-- For questions, comments or feature requests please contact contact@armada.com -->
           </p>
+          <p style="padding-top: 30px;">
+            {{translate('forFunctionalityDownload')}}
+          </p>
+          <p>
+            <a href="https://play.google.com/store/apps/details?id=com.armadama" >Android</a> / <a href="https://apps.apple.com/us/app/id1530706478" >ios</a>
+          </p>
+        </div>
+        <div v-if="!isLoggedIn" class="login-button-container">
+          <router-link to="/login" class="menu-link" >
+            <button class="login-button">{{translate('loginRegister')}}</button>
+          </router-link>
         </div>
       </div>
 
@@ -36,8 +47,10 @@ export default {
       key: 'home'
     }
   },
-  mounted() {
-    this.getAcademies();
+  computed: {
+    isLoggedIn: function() {
+      return this.$store.getters.isLoggedIn;
+    }
   },
   methods: {
     async getAcademies() {
@@ -80,6 +93,9 @@ export default {
 
       this.$store.commit('isLoading', false);
     }
+  },
+  mounted() {
+    this.getAcademies();
   }
 }
 </script>
@@ -98,6 +114,14 @@ export default {
 
 .academies-container {
   padding-top: 50px;
+}
+
+.login-button-container {
+  padding-top: 50px;
+}
+
+.login-button {
+  cusor: pointer;
 }
 
 h1, h2 {
@@ -119,7 +143,7 @@ li {
 }
 
 a {
-  color: #42b983;
+  color: rgb(10,42,84);
 }
 
 p {

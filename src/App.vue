@@ -39,7 +39,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .content {
   width: 1200px;
   min-height: 600px;

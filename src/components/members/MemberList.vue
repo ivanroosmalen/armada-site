@@ -16,7 +16,8 @@
     },
     props: [
       'dataKey',
-      'type'
+      'type',
+      'memberList'
     ],
     data() {
       return {
@@ -24,6 +25,10 @@
     },
     computed: {
       members: function() {
+        if(this.memberList) {
+          return this.memberList;
+        }
+
         if(this.type === 'instructors') {
           let members = this.$store.getters.getAcademyMembers(this.dataKey) || [];
           return members.filter(member => member.isInstructor)

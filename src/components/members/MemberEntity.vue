@@ -1,6 +1,6 @@
 <template>
   <router-link :to="'/users/'+member._id" class="member-wrapper">
-    <img :src="member.profileImg || defaultImg" class="img" />
+    <img :src="member.member.thumbnailImg || defaultImg" class="img" />
     <div class="member-name">{{member.member.alias}}</div>
   </router-link>
 </template>

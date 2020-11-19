@@ -1,27 +1,24 @@
 <template>
   <div class="schedule-obj">
     <div class="top-schedule">
-      <div class="date">
-        {{getDate(classObj.schedule.startDate)}} {{this.hasDuration ? `(${this.durationHour}h ${this.durationMinute}m)` : '' }}
-      </div>
-      <div class="martialArt">
-        {{classObj.martialArt}}
-      </div>
-      <div class="attend-button-wrapper">
-        <button @click="onAttend" class="attend-button">{{getAttending()}} {{translate('attending')}}</button>
-        <div :class="displayOptions ? 'dropdown-content' : 'dropdown-content-inactive'">
-          <div class="dropdown-element"  @click="attend(true)">{{translate('online')}}</div>
-          <div class="dropdown-element"  @click="attend(false)">{{translate('inPerson')}}</div>
-        </div>
-      </div>
-    </div>
-      <div class="name">
-        <router-link :to="'/classes/'+classObj._id" class="name-link">
-          {{classObj.name}}
+      <div class="main-area">
+        <router-link :to="{path: '/classes/'+classObj._id, query: { startDate: classObj.schedule.startDate, endDate: classObj.schedule.endDate }}" class="name-link">
+          <div class="date">
+            {{getDate(classObj.schedule.startDate, 'ddd, MMM DD HH:mm')}} {{this.hasDuration ? `(${this.durationHour}h ${this.durationMinute}m)` : '' }}
+          </div>
+          <div class="martialArt">
+            {{classObj.martialArt}}
+          </div>
+          <div class="name">
+            {{classObj.name}}
+          </div>
         </router-link>
       </div>
 
-    <div class="name" v-if="classObj.location && classObj.location.address">
+      <AttendButton :classObj="classObj" :isMember="isMember" />
+    </div>
+
+    <div class="location" v-if="classObj.location && classObj.location.address">
       <a :href="classObj.location.url">{{classObj.location.address}}</a>
     </div>
   </div>
@@ -29,9 +26,13 @@
 
 <script>
 import moment from 'moment'
+import AttendButton from '@/components/schedule/AttendButton'
 
   export default {
     name: 'ScheduleElement',
+    components: {
+      AttendButton
+    },
     props: [
       'classObj',
       'isMember'
@@ -41,7 +42,6 @@ import moment from 'moment'
         durationHour: 0,
         durationMinute: 0,
         hasDuration: false,
-        displayOptions: false
       }
     },
     computed: {
@@ -50,8 +50,8 @@ import moment from 'moment'
       }
     },
     methods: {
-      getDate(date) {
-        return moment(date).format('ddd, MMM DD HH:MM');
+      getDate(date, format) {
+        return moment(date).format(format);
       },
       setDateDiff(startDate, endDate) {
         let duration = endDate.valueOf() && startDate.valueOf() ? endDate.valueOf() - startDate.valueOf() : 0;
@@ -62,56 +62,6 @@ import moment from 'moment'
         if(this.durationHour && this.durationHour > 0 || (this.durationMinute && this.durationMinute > 0)) {
           this.hasDuration = true;
         }
-      },
-      getAttending() {
-        return this.classObj.attendees && this.classObj.attendees.length;
-      },
-      onAttend() {
-        if(!this.currentUser) {
-          this.$router.push( '/login' )
-          return;
-        }
-
-        if(!this.isMember) {
-          return;
-        }
-
-        if(this.isAttending()) {
-          let data = {
-            classId: this.classObj._id
-          }
-          this.unattend(data);
-          return;
-        }
-
-        if(this.classObj.supportOnlineClasses) {
-            this.displayOptions = !this.displayOptions;
-        } else {
-          this.attend(false)
-        }
-      },
-      async attend(online = false) {
-        this.$store.commit('isLoading', true);
-
-        let params = {
-          classId: this.classObj._id || this.classObj.parentId,
-          startDate: this.classObj.schedule.startDate,
-          endDate: this.classObj.schedule.endDate,
-          online
-        }
-
-        await this.$store.dispatch('attend', { params })
-        this.$store.commit('isLoading', false);
-
-        this.displayOptions = false;
-      },
-      async unattend(params) {
-        this.$store.commit('isLoading', true);
-        await this.$store.dispatch('unattend', { params })
-        this.$store.commit('isLoading', false);
-      },
-      isAttending() {
-        return this.classObj.attendees && this.classObj.attendees.find(attendee => attendee.academyMember.member._id === this.currentUser._id)
       }
     },
     mounted() {
@@ -135,26 +85,30 @@ import moment from 'moment'
 
 .top-schedule {
   display: grid;
-  grid-template-columns: auto 200px;
-  grid-template-rows: 20px 20px;
+  grid-template-columns: auto 150px;
+}
+
+.main-area {
+  cursor: pointer;
+  text-align: left;
+}
+
+.expandedArea {
+
 }
 
 .date {
-  text-align: left;
-  grid-column: 1 / span 1;
+
 }
 
 .martialArt {
-  text-align: left;
   font-size: 14px;
   color: #a8a8a8;
   padding-top: 5px;
-  grid-column: 1 / span 1;
 }
 
 .attend-button-wrapper {
   grid-column: 2 / span 1;
-  grid-row: 1 / span 2;
   text-align: right;
   position: relative;
 }
@@ -167,7 +121,6 @@ import moment from 'moment'
 }
 
 .name {
-  text-align: left;
   padding-top: 15px;
   text-decoration: none;
 }
@@ -176,6 +129,11 @@ import moment from 'moment'
   font-size: 20px;
   color: #2e2d2d;
   text-decoration: none;
+}
+
+.location {
+  padding-top: 15px;
+  text-align: left;
 }
 
 .dropdown-content {

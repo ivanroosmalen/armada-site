@@ -5,7 +5,7 @@
 
       <div :class="isLoggedIn ? 'menuLoggedIn' : 'menu'">
         <div class="nav-button-wrapper"><router-link to="/" class="menu-link" ><span class='nav-button'>{{translate('home')}}</span></router-link></div>
-        <div class="nav-button-wrapper"><router-link to="/" class="menu-link" ><span class='nav-button'>{{translate('academies')}}</span></router-link></div>
+        <div class="nav-button-wrapper" v-if="isLoggedIn"><router-link to="/dashboard" class="menu-link" ><span class='nav-button'>{{translate('dashboard')}}</span></router-link></div>
 
         <div class="login-register-button" v-if="!isLoggedIn"><router-link to="/login" ><span class='login-button'>{{translate('loginRegister')}}</span></router-link></div>
 
@@ -137,6 +137,7 @@
   .nav-button-wrapper .nav-button {
     /* color: #2e2d2d; */
     color: #efefef;
+    font-weight:500;
   }
 
   .user-image {

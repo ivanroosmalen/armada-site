@@ -117,7 +117,7 @@ export default {
           let entity = await this.$store.dispatch('login', { data: this.data })
           localStorage.authtoken = entity.jwt;
           localStorage.user = JSON.stringify(entity.user);
-          this.$router.push( '/' )
+          this.$router.push( '/dashboard' )
         } catch(e) {
           this.error = this.translate('loginError')
         }

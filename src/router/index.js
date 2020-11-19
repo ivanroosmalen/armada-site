@@ -6,6 +6,8 @@ import ToC from '../views/ToC.vue'
 import Contact from '../views/Contact.vue'
 import Account from '../views/Account.vue'
 import Academy from '../views/Academy.vue'
+import Class from '../views/Class.vue'
+import Dashboard from '../views/Dashboard.vue'
 
 const routes = [
   {
@@ -14,6 +16,14 @@ const routes = [
     component: Home,
     meta: {
       title: 'Armada MA - home',
+    }
+  },
+  {
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: Dashboard,
+    meta: {
+      title: 'Armada MA - dashboard',
     }
   },
   {
@@ -62,6 +72,15 @@ const routes = [
     component: Academy,
     meta: {
       title: 'Armada MA - Academy'
+    }
+  },
+  {
+    path: '/classes/:id',
+    name: 'Class',
+    component: Class,
+    props: route => ({ startDate: route.query.startDate, endDate: route.query.endDate }),
+    meta: {
+      title: 'Armada MA - Class'
     }
   }
 ]
