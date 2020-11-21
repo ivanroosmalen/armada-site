@@ -17,7 +17,7 @@
         </div>
 
         <div class="attend-button" v-if="!currentMember.isOwner">
-          <AttendButton :classObj="classObj" :startDate="startDate" :endDate="endDate" :isMember="!!currentMember" :changeRoute="true" />
+          <AttendButton :classObj="classObj" :startDate="startDate" :endDate="endDate" :isMember="!!currentMember" :changeRoute="true" :text="translate('attend')" />
         </div>
         <div class="attend-button" v-if="isOwner">
           <button class="setAttendance-button" @click="modalOpen = true">{{translate('setAttendance')}}</button>
@@ -147,12 +147,17 @@
   }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .class-wrapper {
   color: #2e2d2d;
   display: grid;
-  grid-template-columns: auto 400px;
+  grid-template-rows: auto auto;
   grid-gap: 20px;
+
+  @include md {
+    grid-template-columns: auto 400px;
+    grid-gap: 20px;
+  }
 }
 
 .class-element {
@@ -191,7 +196,10 @@
 
 .attend-button {
   padding-top: 50px;
-  float:left;
+  text-align: center;
+  @include md {
+    text-align: left;
+  }
 }
 
 .setAttendance-button {
@@ -199,11 +207,23 @@
   border-radius: 20px;
   color: #efefef;
   cursor: pointer;
+
 }
 
 h3 {
-  text-align: left;
   padding-left: 0;
+
+  text-align: center;
+  @include md {
+    text-align: left;
+  }
+}
+
+h1 {
+  text-align: center;
+  @include md {
+    text-align: left;
+  }
 }
 
 a {

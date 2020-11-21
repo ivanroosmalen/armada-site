@@ -95,16 +95,26 @@
   }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .img {
-  width: 350px;
-  height: 250px;
+  width: 280px;
+  height: 220px;
   object-fit: cover;
   border-radius: 10px;
   grid-column-start: 1;
   grid-column-end: 1;
   grid-row-start: 1;
   grid-row-end: 2;
+
+  justify-self: center;
+  @include sm {
+    width: 350px;
+    height: 270px;
+  }
+
+  @include lg {
+    justify-self: left;
+  }
 }
 
 .academy-wrapper {
@@ -112,8 +122,12 @@
 }
 
 .academy-element {
-  grid-template-columns: 400px 1fr;
   display: grid;
+
+  grid-template-rows: auto auto;
+  @include md {
+      grid-template-columns: 400px 1fr;
+  }
 }
 
 .academy-name {
@@ -139,20 +153,45 @@
 
 .content-wrapper {
   text-align: left;
-  grid-column-start: 2;
-  grid-column-end: 2;
+
+  grid-row-start: 2;
+  grid-row-end: 2;
+
+  @include md {
+    grid-column-start: 2;
+    grid-column-end: 2;
+
+    grid-row-start: 1;
+    grid-row-end: 1;
+  }
 }
 
 .secondary-element {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  /* max-height: 600px;
-  overflow-y: scroll; */
+
+  grid-template-rows: auto;
+  @include md {
+    grid-template-columns: 1fr 1fr;
+    grid-row-gap: 5px;
+    grid-column-gap: 5px;
+  }
 }
 
 h2 {
-  text-align: left;
   padding-left: 0;
+
+  text-align: center;
+  @include md {
+    text-align: left;
+  }
+}
+
+h1 {
+
+  text-align: center;
+  @include md {
+    text-align: left;
+  }
 }
 
 a {

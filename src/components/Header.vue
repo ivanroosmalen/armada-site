@@ -3,18 +3,48 @@
     <div class="header-content">
       <router-link to="/"><img src="@/assets/logo.png" class='logo'></router-link>
 
-      <div :class="isLoggedIn ? 'menuLoggedIn' : 'menu'">
-        <div class="nav-button-wrapper"><router-link to="/" class="menu-link" ><span class='nav-button'>{{translate('home')}}</span></router-link></div>
-        <div class="nav-button-wrapper" v-if="isLoggedIn"><router-link to="/dashboard" class="menu-link" ><span class='nav-button'>{{translate('dashboard')}}</span></router-link></div>
+      <div class="desktop">
+        <div :class="isLoggedIn ? 'menuLoggedIn' : 'menu'">
+          <div class="nav-button-wrapper"><router-link to="/" class="menu-link" ><span class='nav-button'>{{translate('home')}}</span></router-link></div>
+          <div class="nav-button-wrapper" v-if="isLoggedIn"><router-link to="/dashboard" class="menu-link" ><span class='nav-button'>{{translate('dashboard')}}</span></router-link></div>
 
-        <div class="login-register-button" v-if="!isLoggedIn"><router-link to="/login" ><span class='login-button'>{{translate('loginRegister')}}</span></router-link></div>
+          <div class="login-register-button" v-if="!isLoggedIn"><router-link to="/login" ><span class='login-button'>{{translate('loginRegister')}}</span></router-link></div>
 
-        <span class='user-image' v-if="isLoggedIn" >
-          <!-- <span class='alias'>{{user.alias || ''}}</span> -->
-          <div class="img-wrapper">
-            <img :src="user.thumbnailImg || this.defaultImg" class="thumbnail"/>
-          </div>
+          <span class='user-image' v-if="isLoggedIn" >
+            <!-- <span class='alias'>{{user.alias || ''}}</span> -->
+            <div class="img-wrapper">
+              <img :src="user.thumbnailImg || this.defaultImg" class="thumbnail"/>
+            </div>
+            <div class="dropdown-content">
+              <div class="dropdown-element login-button"  v-if="isLoggedIn" @click="onAccountClicked">{{translate('account')}}</div>
+              <div class="dropdown-element login-button"  v-if="isLoggedIn" @click="logout">{{translate('logout')}}</div>
+            </div>
+          </span>
+        </div>
+      </div>
+
+      <div class="non-desktop">
+        <span :class="menuWrapperClicked ? 'menu-wrapper-clicked' : 'menu-wrapper'">
+          <img src="@/assets/menu.png" class="hamburger" v-click-outside="closeMenu" @click="menuWrapperClicked = !menuWrapperClicked"/>
           <div class="dropdown-content">
+            <router-link to="/" class="link" >
+              <div class="dropdown-element login-button" >
+                {{translate('home')}}
+              </div>
+            </router-link>
+
+            <router-link to="/dashboard" class="link" v-if="isLoggedIn" >
+              <div class="dropdown-element login-button" >
+                {{translate('dashboard')}}
+              </div>
+            </router-link>
+
+            <router-link to="/login" class="link" >
+              <div class="dropdown-element login-button"  v-if="!isLoggedIn">
+                {{translate('loginRegister')}}
+              </div>
+            </router-link>
+
             <div class="dropdown-element login-button"  v-if="isLoggedIn" @click="onAccountClicked">{{translate('account')}}</div>
             <div class="dropdown-element login-button"  v-if="isLoggedIn" @click="logout">{{translate('logout')}}</div>
           </div>
@@ -25,11 +55,30 @@
 </template>
 
 <script>
+  import ClickOutside from 'vue-click-outside'
+
   export default {
     name: 'Header',
+    directives: {
+      clickOutside: {
+        beforeMount(el, binding) {
+          el.clickOutsideEvent = function (event) {
+            // here I check that click was outside the el and his children
+            if (!(el == event.target || el.contains(event.target))) {
+              binding.value();
+            }
+          };
+          document.body.addEventListener('click', el.clickOutsideEvent)
+        },
+        unmounted(el){
+          document.body.removeEventListener('click', el.clickOutsideEvent)
+        }
+      }
+    },
     data() {
       return {
-        defaultImg: 'https://armada-user-images.s3.amazonaws.com/default/thumbnail.jpg'
+        defaultImg: 'https://armada-user-images.s3.amazonaws.com/default/thumbnail.jpg',
+        menuWrapperClicked: false
       }
     },
     computed: {
@@ -53,30 +102,49 @@
       },
       onAccountClicked() {
         this.$router.push( '/account' )
+      },
+      closeMenu() {
+        this.menuWrapperClicked = false;
       }
     }
   }
 </script>
 
-<style>
+<style lang="scss" scoped>
+
   .header {
-    background-color: rgb(10,42,84);
-    height: 75px;
+    background-color: $primaryBackground;
     z-index: 100;
+
+    height: 50px;
+    @include lg {
+        height: 75px;
+    }
   }
 
   .header-content {
     text-align: 'center';
-    height: 75px;
     margin: auto;
     position: relative;
+
+    height: 50px;
+    @include lg {
+        height: 75px;
+    }
   }
 
   .logo {
-    height: 60px;
-    margin-top: 10px;
-    margin-left: 50px;
     float: left;
+
+    height: 40px;
+    margin-left: 5px;
+    margin-top: 5px;
+
+    @include lg {
+        margin-top: 8px;
+        height: 60px;
+        margin-left: 50px;
+    }
   }
 
   .menu {
@@ -97,9 +165,42 @@
     height: 100%;
   }
 
+  .desktop {
+    display: none;
+    @include lg {
+        display: block;
+    }
+  }
+
+  .non-desktop {
+    display: block;
+    @include lg {
+        display: none;
+    }
+
+    .menu-wrapper-clicked .dropdown-content {
+      display: block;
+      margin-top: 50px;
+      right: 0px;
+    }
+  }
+
+  .hamburger {
+    width: 35px;
+    height: 35px;
+    float: right;
+    padding: 7px 10px 0 0;
+    color: #efefef;
+  }
+
+  .link {
+    text-decoration: none;
+  }
+
   .login-button {
       color: #efefef;
-      cursor: pointer
+      cursor: pointer;
+      text-decoration: none;
   }
 
   .login-register-button {

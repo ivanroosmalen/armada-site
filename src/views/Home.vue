@@ -100,7 +100,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 
 .home {
   background-color: #efefef;

@@ -74,18 +74,26 @@ import AttendButton from '@/components/schedule/AttendButton'
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 
 .schedule-obj {
   padding-bottom: 30px;
   background-color: white;
-  padding: 10px 10px 10px 10px;
+  padding: 5px 5px 5px 5px;
   border-radius: 15px;
+
+  @include md {
+    padding: 10px 10px 10px 10px;
+  }
 }
 
 .top-schedule {
   display: grid;
-  grid-template-columns: auto 150px;
+  grid-template-columns: auto 100px;
+
+  @include md {
+    grid-template-columns: auto 150px;
+  }
 }
 
 .main-area {
@@ -98,26 +106,23 @@ import AttendButton from '@/components/schedule/AttendButton'
 }
 
 .date {
-
+  font-size: 15px;
+  @include md {
+      font-size: 18px;
+  }
 }
 
 .martialArt {
   font-size: 14px;
   color: #a8a8a8;
   padding-top: 5px;
+  font-style: italic;
 }
 
 .attend-button-wrapper {
   grid-column: 2 / span 1;
   text-align: right;
   position: relative;
-}
-
-.attend-button {
-  height: 40px;
-  border-radius: 20px;
-  color: #efefef;
-  cursor: pointer;
 }
 
 .name {
@@ -134,6 +139,11 @@ import AttendButton from '@/components/schedule/AttendButton'
 .location {
   padding-top: 15px;
   text-align: left;
+
+  font-size: 12px;
+  @include md {
+      font-size: 15px;
+  }
 }
 
 .dropdown-content {
@@ -165,4 +175,5 @@ a {
   color: #a8a8a8;
   font-size: 15px;
 }
+
 </style>

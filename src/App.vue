@@ -39,14 +39,18 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss">
 .content {
-  width: 1200px;
+  max-width: 1200px;
   min-height: 600px;
   margin: 0 auto;
   background-color: #efefef;
-  padding: 20px 20px 20px 15px;
+  padding: 5px 5px 5px 5px;
   margin-bottom: -15px;
+
+  @include md {
+    padding: 20px 20px 20px 15px;
+  }
 }
 
 .overlay-off {
@@ -108,5 +112,22 @@ li {
 
 a {
   color: #42b983;
+}
+
+input {
+  width: 200px;
+  height: 25px;
+  color: #2e2d2d;
+  background-color: #f5f5f5;
+  border-width: 1px;
+}
+
+button {
+  min-width: 150px;
+  background-color: rgb(10,42,84);
+  color: #efefef;
+  border: none;
+  border-radius: 15px;
+  height: 25px;
 }
 </style>

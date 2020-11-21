@@ -179,15 +179,18 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
 
 .auth-container {
   border-style: solid;
   border-width: 1px;
   border-radius: 10px;
-  width: 500px;
   margin: auto;
   padding-bottom: 20px;
+
+  @include sm {
+      width: 500px;
+  }
 }
 
 .button-container {

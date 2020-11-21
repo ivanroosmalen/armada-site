@@ -1,6 +1,6 @@
 <template>
   <div class="attend-button-wrapper">
-    <button @click="onAttend" class="attend-button">{{attending}} {{translate('attending')}}</button>
+    <button @click="onAttend" class="attend-button">{{text || attending}} {{!text ? translate('attending') : ''}}</button>
     <div :class="displayOptions ? 'dropdown-content' : 'dropdown-content-inactive'">
       <div class="dropdown-element"  @click="attend(true)">{{translate('online')}}</div>
       <div class="dropdown-element"  @click="attend(false)">{{translate('inPerson')}}</div>
@@ -18,7 +18,8 @@ import moment from 'moment'
       'isMember',
       'startDate',
       'endDate',
-      'changeRoute'
+      'changeRoute',
+      'text'
     ],
     data() {
       return {
@@ -92,7 +93,7 @@ import moment from 'moment'
   }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 
 .attend-button-wrapper {
   grid-column: 2 / span 1;
@@ -105,6 +106,14 @@ import moment from 'moment'
   border-radius: 20px;
   color: #efefef;
   cursor: pointer;
+
+  min-width: 100px;
+  font-size: 12px;
+
+  @include md {
+    min-width: 150px;
+    font-size: 15px;
+  }
 }
 
 .dropdown-content {

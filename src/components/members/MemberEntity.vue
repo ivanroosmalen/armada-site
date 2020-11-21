@@ -19,12 +19,24 @@
   }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .img {
-  width: 100px;
-  height: 100px;
+  width: 60px;
+  height: 60px;
   object-fit: cover;
-  border-radius: 50px
+  border-radius: 30px;
+
+  @include sm {
+    width: 80px;
+    height: 80px;
+    border-radius: 40px;
+  }
+
+  @include md {
+    width: 100px;
+    height: 100px;
+    border-radius: 50px;
+  }
 }
 
 .member-wrapper {
@@ -32,7 +44,15 @@
   color: #2e2d2d;
   text-decoration: none;
   display: grid;
-  grid-template-rows: 100px 20px;
+  grid-template-rows: 60px 20px;
+
+  @include sm {
+      grid-template-rows: 80px 25px;
+  }
+
+  @include md {
+      grid-template-rows: 100px 30px;
+  }
 }
 
 .member-wrapper:hover {
@@ -41,6 +61,7 @@
 
 .member-name {
   font-size: 15px;
+  overflow: hidden;
 }
 
 </style>

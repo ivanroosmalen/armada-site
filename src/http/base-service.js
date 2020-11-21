@@ -1,13 +1,13 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:3000/v1/';
-// const BASE_URL = 'https://user.armadama.com/v1/';
+// const BASE_URL = 'http://localhost:3000/v1/';
+const BASE_URL = 'https://user.armadama.com/v1/';
 
 class BaseService {
 
     constructor(entity, baseUrl) {
-        // this.url = (baseUrl || BASE_URL) + entity;
-       this.url = (BASE_URL || baseUrl) + entity;
+        this.url = (baseUrl || BASE_URL) + entity;
+       // this.url = (BASE_URL || baseUrl) + entity;
         this.httpRequest = axios;
     }
 

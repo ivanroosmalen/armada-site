@@ -1,5 +1,5 @@
 <template>
-  <Modal v-model="value" max-width="500px">
+  <Modal v-model="value" max-width="500px" class="modal-container">
     <div class="modal">
       <div v-for="member in members" :key="member._id" class="member-container">
         <div>
@@ -122,12 +122,25 @@
   }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+
+.modal-container {
+  background-color: #efefef;
+}
+
 .modal {
   background-color: #efefef;
   color: #2e2d2d;
-  padding: 10px 10px 10px 10px;
   border-radius: 10px;
+  max-height: 300px;
+  overflow-y: scroll;
+
+  font-size: 15px;
+  padding: 5px 5px 5px 5px;
+  @include md {
+    font-size: 20px;
+    padding: 10px 10px 10px 10px;
+  }
 }
 
 .button-container {
@@ -138,17 +151,27 @@
 .member-container {
   display: grid;
   align-items: center;
-  grid-template-columns: 40px 75px 40px 75px auto;
+  justify-content: left;
+
+  grid-template-columns: 20px 75px 20px 55px auto;
+  @include md {
+    grid-template-columns: 40px 80px 40px 60px auto;
+  }
 }
 
 .member {
-  font-size: 20px;
   font-weight: bold;
-  padding-left: 20px;
+
+  font-size: 15px;
+  padding-left: 5px;
+  @include md {
+    font-size: 20px;
+    padding-left: 20px;
+  }
 }
 
 input {
-  width: 40px;
+  width: 20px;
 }
 
 button {

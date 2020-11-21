@@ -8,11 +8,13 @@
     <div class="academy-element" v-if="academy && Object.keys(academy).length">
       <img :src="academy.profileImg || defaultImg" class="img" />
       <div class="content-wrapper">
-        <select v-model="academy" v-if="userAcademies && userAcademies.length" class="dashboard-select">
-          <option :value="ua" v-for="(ua, index) in userAcademies" :key="index">
-            {{ua.name}}
-          </option>
-        </select>
+        <div class="select-wrapper">
+          <select v-model="academy" v-if="userAcademies && userAcademies.length" class="dashboard-select">
+            <option :value="ua" v-for="(ua, index) in userAcademies" :key="index">
+              {{ua.name}}
+            </option>
+          </select>
+        </div>
         <div class="academy-mas">
           <span v-for="ma in academy.martialArts">
             {{ma.name}}
@@ -102,10 +104,14 @@
       async getData() {
         this.$store.commit('isLoading', true);
 
-        if(this.currentUser) {
-          await Promise.all([
-            this.$store.dispatch('getUserAcademies', { id: this.currentUser._id }),
-          ]);
+        try {
+          if(this.currentUser) {
+            await Promise.all([
+              this.$store.dispatch('getUserAcademies', { id: this.currentUser._id }),
+            ]);
+          }
+        } catch(e) {
+          console.error('Unable to get user academies', e)
         }
 
         this.$store.commit('isLoading', false);
@@ -113,9 +119,13 @@
       async getRelatedData(academy) {
         this.$store.commit('isLoading', true);
 
-        await Promise.all([
-          this.$store.dispatch('listAcademyMembers', { key: academy._id, params: { academyId: academy._id } })
-        ]);
+        try {
+          await Promise.all([
+            this.$store.dispatch('listAcademyMembers', { key: academy._id, params: { academyId: academy._id } })
+          ]);
+        } catch(e) {
+          console.error('Unable to get academy members', e)
+        }
 
         this.$store.commit('isLoading', false);
       }
@@ -126,20 +136,30 @@
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .no-data {
   text-align: center;
 }
 
 .img {
-  width: 350px;
-  height: 250px;
+  width: 280px;
+  height: 200px;
   object-fit: cover;
   border-radius: 10px;
   grid-column-start: 1;
   grid-column-end: 1;
   grid-row-start: 1;
-  grid-row-end: 2;
+  grid-row-end: 1;
+  justify-self: center;
+
+  @include sm {
+    width: 350px;
+    height: 270px;
+  }
+
+  @include lg {
+    justify-self: left;
+  }
 }
 
 .academy-wrapper {
@@ -147,8 +167,13 @@
 }
 
 .academy-element {
-  grid-template-columns: 400px 1fr;
   display: grid;
+
+  grid-template-rows: auto auto;
+
+  @include md {
+      grid-template-columns: 400px 1fr;
+  }
 }
 
 .academy-name {
@@ -174,15 +199,28 @@
 
 .content-wrapper {
   text-align: left;
-  grid-column-start: 2;
-  grid-column-end: 2;
+
+  grid-row-start: 2;
+  grid-row-end: 2;
+
+  @include md {
+    grid-column-start: 2;
+    grid-column-end: 2;
+
+    grid-row-start: 1;
+    grid-row-end: 1;
+  }
 }
 
 .secondary-element {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  /* max-height: 600px;
-  overflow-y: scroll; */
+
+  grid-template-rows: auto;
+  @include md {
+    grid-template-columns: 1fr 1fr;
+    grid-row-gap: 5px;
+    grid-column-gap: 5px;
+  }
 }
 
 .dashboard-select {
@@ -193,9 +231,21 @@
   cursor: pointer;
 }
 
+.select-wrapper {
+  text-align: center;
+
+  @include md {
+    text-align: left;
+  }
+}
+
 h2 {
-  text-align: left;
   padding-left: 0;
+
+  text-align: center;
+  @include md {
+    text-align: left;
+  }
 }
 
 a {

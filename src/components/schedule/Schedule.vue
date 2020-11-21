@@ -32,7 +32,7 @@ import Datepicker from 'vue3-datepicker-lite'
     data() {
       return {
         startDate: moment().startOf('day').format('YYYY/MM/DD'),
-        endDate: moment().add(31, 'days').endOf('day').format('YYYY/MM/DD')
+        endDate: moment().add(7, 'days').endOf('day').format('YYYY/MM/DD')
       }
     },
     computed: {
@@ -86,13 +86,12 @@ import Datepicker from 'vue3-datepicker-lite'
   }
 </script>
 
-<style >
+<style lang="scss">
 .schedule-wrapper {
   display: grid;
   grid-template-rows: repeat(auto-fill);
   grid-row-gap: 10px;
   grid-column-gap: 10px;
-  margin-right: 10px;
 }
 
 .noSchedule {
@@ -120,6 +119,12 @@ import Datepicker from 'vue3-datepicker-lite'
   background-color: white;
   border-radius: 5px;
   height: 30px;
+  width: 120px;
+
+  @include md {
+    width: 200px;
+  }
+
 }
 
 </style>

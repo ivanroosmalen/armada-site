@@ -41,18 +41,36 @@
   }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 
 .member-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
   grid-row-gap: 10px;
   grid-column-gap: 10px;
   justify-items: center;
+
+  grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+  @include sm {
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  }
+
+  @include md {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  }
 }
 
 .member-element {
-  width: 100px;
-  height: 120px;
+  width: 60px;
+  height: 80px;
+
+  @include sm {
+    width: 80px;
+    height: 100px;
+  }
+
+  @include md {
+    width: 100px;
+    height: 120px;
+  }
 }
 </style>
