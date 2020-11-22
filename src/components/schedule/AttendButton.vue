@@ -97,8 +97,12 @@ import moment from 'moment'
 
 .attend-button-wrapper {
   grid-column: 2 / span 1;
-  text-align: right;
   position: relative;
+
+  text-align: center;
+  @include md {
+    text-align: left;
+  }
 }
 
 .attend-button {

@@ -77,7 +77,7 @@
     },
     data() {
       return {
-        defaultImg: 'https://armada-user-images.s3.amazonaws.com/default/thumbnail.jpg',
+        defaultImg: 'https://user-images.armadama.com/default/thumbnail.jpg',
         menuWrapperClicked: false
       }
     },

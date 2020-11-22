@@ -14,7 +14,7 @@
     ],
     data() {
       return {
-        defaultImg: 'https://armada-user-images.s3.amazonaws.com/default/profile.jpg'
+        defaultImg: 'https://user-images.armadama.com/default/profile.jpg'
       }
     }
   }
